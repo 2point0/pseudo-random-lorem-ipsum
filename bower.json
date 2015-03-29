@@ -1,0 +1,28 @@
+{
+  "name": "pseudo-random-lorem-ipsum",
+  "version": "0.0.1",
+  "authors": [
+    "qui <qui.after@gmail.com>"
+  ],
+  "description": "Element providing random text.",
+  "keywords": [
+    "web-component",
+    "web-components",
+    "polymer",
+    "lorem-ipsum",
+    "text-generator"
+  ],
+  "main": "pseudo-random-lorem-ipsum.html",
+  "license": "MIT",
+  "homepage": "https://github.com/2point0/pseudo-random-lorem-ipsum/",
+  "ignore": [
+    "/.*",
+    "/tests/"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^0.5.2"
+  },
+  "devDependencies": {
+    "web-component-tester": "Polymer/web-component-tester#^2.0.5"
+  }
+}

@@ -1,0 +1,81 @@
+<!--
+    @license
+    Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+    This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+    The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+    The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+    Code distributed by Google as part of the polymer project is also
+    subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>pseudo-random-lorem-ipsum</title>
+
+  <script src="../../webcomponentsjs/webcomponents.min.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+
+  <link rel="import" href="../pseudo-random-lorem-ipsum.html">
+</head>
+<body>
+
+<pseudo-random-lorem-ipsum></pseudo-random-lorem-ipsum>
+
+<script>
+  var loremIpsum = document.querySelector('pseudo-random-lorem-ipsum')
+
+  var count = 5000,
+      generate = function (generator) {
+        var a = []
+        for (var i = 0; i < count; i++) {
+          var g = generator()
+          if (!~a.indexOf(g))
+            a.push(g)
+        }
+        return a
+      }
+
+  describe('<pseudo-random-lorem-ipsum>', function () {
+
+    it('random words', function () {
+      var words = generate(function () {
+        return loremIpsum.word()
+      })
+      // Random enough to generate fairly random words
+      assert.ok(words.length > count * 0.9)
+    })
+
+    it('random sentences', function () {
+      var sentences = generate(function () {
+        return loremIpsum.sentence()
+      })
+      assert.ok(sentences.length > count * 0.9)
+    })
+
+    it('random paragraphs', function () {
+      var paragraphs = generate(function () {
+        return loremIpsum.paragraph()
+      })
+      assert.ok(paragraphs.length > count * 0.9)
+    })
+
+    it('arrays are returned', function () {
+      assert.ok(Array.isArray(loremIpsum.word()))
+
+      // Invalid count still generates 1
+      var sentences = loremIpsum.sentence(-1)
+      assert.ok(Array.isArray(sentences))
+      assert.equal(sentences.length, 1)
+
+      var count = 517,
+          paragraphs = loremIpsum.paragraph(count)
+      assert.ok(paragraphs.length, count)
+    })
+
+  })
+</script>
+
+</body>
+</html>
