@@ -1,0 +1,7 @@
+{
+  "name": "pseudo-random-lorem-ipsum#gh-pages",
+  "private": true,
+  "dependencies": {
+    "pseudo-random-lorem-ipsum": "2point0/pseudo-random-lorem-ipsum#master"
+  }
+}

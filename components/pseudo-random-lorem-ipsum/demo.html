@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <title>pseudo-random-lorem-ipsum Demo</title>
+
+  <script src="../webcomponentsjs/webcomponents.min.js"></script>
+  <link rel="import" href="pseudo-random-lorem-ipsum.html">
+
+  <style>
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body unresolved>
+
+<div class="container">
+
+  <p>An example of using <code>&lt;pseudo-random-lorem-ipsum&gt;</code>:</p>
+
+  <p>Click on text below to cycle</p>
+
+  <!-- demo-element is defined below -->
+  <demo-element></demo-element>
+
+</div>
+
+<polymer-element name="demo-element">
+
+  <template>
+
+    <style>
+      p {
+        cursor: pointer;
+      }
+
+      p:hover {
+        background-color: #eee;
+      }
+    </style>
+
+    <p id="word" on-click="{{onClickChange}}">{{word}}</p>
+
+    <p id="sentence" on-click="{{onClickChange}}">{{sentence}}</p>
+
+    <p id="paragraph" on-click="{{onClickChange}}">{{paragraph}}</p>
+  </template>
+
+  <script>
+
+    var loremIpsum = document.createElement('pseudo-random-lorem-ipsum')
+
+    Polymer({
+      word: 'word',
+      sentence: 'sentence',
+      paragraph: 'paragraph',
+      onClickChange: function (event, detail, sender) {
+        switch (sender.id) {
+          case 'word':
+            this.word = loremIpsum.word()[0]
+            break;
+          case 'sentence':
+            this.sentence = loremIpsum.sentence()[0]
+            break;
+          case 'paragraph':
+            this.paragraph = loremIpsum.paragraph()[0]
+            break;
+        }
+      }
+    })
+
+  </script>
+
+</polymer-element>
+
+</body>
+</html>

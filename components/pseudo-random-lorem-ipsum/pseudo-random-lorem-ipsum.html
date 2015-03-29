@@ -1,0 +1,127 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<!--
+Element providing pseudo-random text (for the demo).
+
+Text is not completely random because text data is limited and Math.random() is used.
+
+Designed to be use as a memory object, not a DOM element.
+
+##### Example
+
+    document.createElement('pseudo-random-lorem-ipsum')
+
+@element pseudo-random-lorem-ipsum
+@blurb Element providing random text.
+@status release
+@homepage https://github.com/2point0/pseudo-random-lorem-ipsum
+-->
+<polymer-element name="pseudo-random-lorem-ipsum">
+
+  <script>
+
+    Polymer({
+
+      /**
+       * Generates an array of random word(s).
+       *
+       * @method word
+       * @param {int} count defaults to 1
+       * @return {Array.<string>} an array of words.
+       */
+      word: function (count) {
+        return produceText(produceRandomWord, count)
+      },
+
+      /**
+       * Generates an array of random sentence(s).
+       *
+       * @method sentence
+       * @param {int} count defaults to 1
+       * @return {Array.<string>} an array of sentences.
+       */
+      sentence: function (count) {
+        return produceText(produceRandomSentence, count)
+      },
+
+      /**
+       * Generates an array of random paragraph(s).
+       *
+       * @method paragraph
+       * @param {int} count defaults to 1
+       * @return {Array.<string>} an array of paragraphs
+       */
+      paragraph: function (count) {
+        return produceText(produceRandomParagraph, count)
+      }
+    })
+
+    var randomText = [
+          "Ut felis quam, posuere non dolor quis, pulvinar maximus dolor. Vivamus nec finibus neque, at malesuada nunc. Nullam pulvinar augue sit amet volutpat maximus. Sed augue dolor, dapibus id tristique nec, sagittis nec urna. Quisque pulvinar massa eu urna faucibus varius in sed elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed ac tincidunt justo.",
+          "Quisque vel justo ut urna malesuada scelerisque. Duis eros libero, varius a sollicitudin at, ullamcorper at nunc. Duis sem leo, interdum ut faucibus non, rutrum ut urna. Nulla eros neque, rutrum sit amet lectus vitae, cursus lacinia felis. Donec ac congue libero. Vestibulum ut eros vitae massa consectetur finibus vel a massa. Sed ultrices lorem in lacinia tempus. Cras tempor convallis pretium. Vestibulum molestie tortor urna, non fermentum elit pharetra in. Maecenas placerat dignissim laoreet. Sed non maximus risus, et sollicitudin ligula. Mauris ac quam sed ipsum dictum ultrices et non ante.",
+          "Maecenas tempus libero quis blandit tristique. Phasellus vel sem condimentum, sodales est ut, fringilla erat. Donec magna augue, fringilla at risus auctor, rutrum efficitur ligula. Aenean tincidunt massa et posuere tristique. Vestibulum sed quam molestie, ultricies nibh at, tempus nunc. Vivamus placerat diam vitae risus pharetra, ut fringilla metus finibus. Curabitur ac auctor felis. Aenean justo elit, elementum id fermentum quis, aliquam eu velit. Maecenas orci lacus, gravida eget consequat vestibulum, venenatis vel nisl. Morbi turpis felis, laoreet a massa nec, venenatis porttitor velit. Sed euismod porta dui, nec viverra mi posuere in. Vivamus pharetra viverra mi, interdum tincidunt metus congue sit amet. Donec et iaculis nulla.",
+          "Vestibulum vel urna in sem imperdiet efficitur. Maecenas a porta ligula. Quisque a viverra diam. Proin ornare, nunc at venenatis porttitor, nisl leo hendrerit augue, quis imperdiet metus nulla vitae mauris. Aenean sodales pretium lectus nec iaculis. Vivamus semper nisl id rutrum tincidunt. Nam vulputate, lorem sit amet scelerisque scelerisque, metus nibh dapibus urna, at ultricies risus est congue ipsum. Nulla molestie accumsan leo mattis mattis. Nullam scelerisque odio sed ullamcorper consequat. Mauris a hendrerit metus. Morbi nec tristique dui. Mauris vel est in massa blandit mattis vel ac nibh.",
+          "Nam nec augue vitae libero tristique feugiat et eget lectus. Pellentesque eu tincidunt metus. Morbi aliquam hendrerit lacinia. Sed eleifend, ante nec mollis hendrerit, lorem metus elementum orci, ac posuere lorem mi ut ante. Aenean eleifend orci vel fermentum eleifend. Cras consectetur nibh at neque feugiat, a malesuada lectus ornare. Suspendisse enim erat, feugiat in libero a, congue interdum velit. Nulla varius massa ultrices, posuere dui ut, maximus dolor. Aliquam id tincidunt tellus, nec condimentum enim. In in enim felis. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Quisque a neque in quam gravida semper. In hac habitasse platea dictumst. Phasellus ut nulla lorem. Curabitur urna turpis, venenatis ut est ut, sodales eleifend eros.",
+          "Duis in laoreet leo, sit amet cursus dui. Donec pharetra convallis accumsan. Nullam mauris ex, mattis at ex porta, auctor commodo ex. Vivamus sed gravida dui. Donec quam velit, tristique et tempus et, convallis et lorem. Pellentesque dictum ex nec sem faucibus consectetur. Curabitur pretium pretium libero quis porta. In sed turpis neque.",
+          "Phasellus eu lectus vehicula, placerat orci vitae, faucibus nunc. Fusce nisl orci, lobortis nec pharetra vel, faucibus eu erat. Praesent id enim eu augue suscipit pretium vitae id lectus. Suspendisse at bibendum nisi. Etiam eu semper ipsum, quis porta tellus. In hac habitasse platea dictumst. Suspendisse potenti. Morbi ornare, risus non ultrices volutpat, lacus quam feugiat orci, et porta tellus nisl nec massa. Quisque id metus tortor. Proin id imperdiet orci, non vehicula ex. Praesent bibendum non diam hendrerit malesuada.",
+          "Proin ac tincidunt odio, ac aliquam lorem. Proin consequat augue quis mi sollicitudin luctus. Aliquam ultricies convallis lacus, ac gravida odio sollicitudin nec. Sed augue mi, congue egestas viverra vel, ultrices ac neque. Vivamus a tempus nulla. Integer in imperdiet nulla. Nam eget sem eu lectus viverra accumsan a at justo. Quisque vulputate suscipit enim sed pellentesque. Nam sit amet arcu semper, mollis velit eu, sagittis odio. Vestibulum placerat massa in nibh pellentesque lobortis. Etiam vel enim ut ipsum bibendum condimentum sit amet nec velit. Ut ut sodales libero, sed condimentum ante. Vestibulum imperdiet, purus et ullamcorper scelerisque, orci nibh aliquet turpis, eget fringilla libero lacus ac eros. Proin mattis sit amet enim id aliquam. Nullam tincidunt mi eu lobortis pretium. Vivamus tincidunt pretium tellus non dignissim.",
+          "Curabitur nec egestas purus. Proin ipsum elit, ultricies nec malesuada id, tincidunt at orci. Aenean tincidunt consequat dui, venenatis bibendum justo malesuada vel. Interdum et malesuada fames ac ante ipsum primis in faucibus. Suspendisse non interdum lacus, at congue nulla. Vestibulum ante augue, pellentesque id nulla ut, ullamcorper eleifend mauris. Donec orci erat, maximus et nisl ut, suscipit varius massa. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Pellentesque semper ornare justo sit amet maximus. Vivamus et risus urna. Curabitur molestie tempus nisi, id malesuada sapien placerat at. Ut nisl enim, facilisis quis accumsan viverra, viverra vitae ex. Etiam ut nunc semper, vulputate diam eu, vulputate turpis.",
+          "Nulla auctor viverra congue. Mauris nibh metus, cursus ac elit feugiat, mattis posuere ipsum. Sed fermentum, nunc egestas consequat posuere, tellus sem feugiat sapien, sed iaculis ipsum turpis eget erat. Sed pulvinar, orci pellentesque commodo aliquet, tortor sapien tincidunt nibh, at faucibus nisi quam ut justo. Mauris eu feugiat nisl. Quisque imperdiet dui vel blandit posuere. Aenean nec laoreet dolor. Curabitur fermentum tempus massa, sed posuere metus mollis vel. Aenean porttitor ligula in sagittis tempor. Vestibulum condimentum semper metus. Fusce hendrerit odio suscipit, molestie justo eget, interdum nibh. Quisque vestibulum dui id imperdiet blandit. Ut lacinia posuere iaculis."
+        ],
+        breakIntoSentences = function () {
+          var sentences = []
+          for (var i = 0, L = randomText.length; i < L; i++) {
+            var text = randomText[i],
+                lines = text.split('.')
+            for (var j = 0, M = lines.length; j < M; j++) {
+              var t = lines[j].trim()
+              if (t)
+                sentences.push(t)
+            }
+          }
+          return sentences
+        },
+        sentences = breakIntoSentences(),
+        sentencesLength = sentences.length,
+        randomInt = function (upperBoundExclusive) {
+          return Math.floor(Math.random() * upperBoundExclusive)
+        },
+        randomSentenceIndex = function () {
+          return randomInt(sentencesLength)
+        },
+        produceRandomSentence = function (index) {
+          return sentences[randomSentenceIndex()] + '.'
+        },
+        produceRandomParagraph = function (index) {
+          var randomCount = 3 + randomInt(3),
+              paragraph = ''
+          for (var i = 0; i < randomCount; i++) {
+            if (paragraph)
+              paragraph += ' '
+            paragraph += produceRandomSentence(index)
+          }
+          return paragraph
+        },
+        produceRandomWord = function (index) {
+          var sentence = produceRandomSentence(index),
+              sentenceLength = sentence.length,
+              startIndex = randomInt(sentenceLength),
+              spaceIndex = sentence.indexOf(' ', startIndex) + 1
+          if (spaceIndex < 0)
+            spaceIndex = 0
+          var nextSpaceIndex = sentence.indexOf(' ', spaceIndex),
+              word = sentence.substring(spaceIndex, nextSpaceIndex < 0 ? sentenceLength : nextSpaceIndex)
+          return /[,.]$/.test(word) ? word.substring(0, word.length - 1) : word
+        },
+        produceText = function (producer, count) {
+          if (isNaN(count) || count <= 0)
+            count = 1
+          var texts = []
+          for (var i = 0; i < count; i++)
+            texts.push(producer(i))
+          return texts
+        }
+
+  </script>
+
+</polymer-element>
